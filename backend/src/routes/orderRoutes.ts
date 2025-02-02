@@ -1,10 +1,9 @@
-// eslint-disable-next-line import/no-import-module-exports
 import express from 'express';
+import createOrder from '../controllers/orderController';
+import { ValidateOrdertBody } from '../middleware/validatons';
 
 const router = express.Router();
 
-const { createOrder } = require('../controllers/orderController');
+router.route('/').post(ValidateOrdertBody, createOrder);
 
-router.route('/').post(createOrder);
-
-module.exports = router;
+export default router;

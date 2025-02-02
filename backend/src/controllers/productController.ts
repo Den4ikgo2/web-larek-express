@@ -1,20 +1,17 @@
-// eslint-disable-next-line import/no-import-module-exports
 import { Request, Response } from 'express';
-// eslint-disable-next-line import/no-import-module-exports, import/no-extraneous-dependencies
 import asyncHandler from 'express-async-handler';
+import Product from '../models/product';
+import HttpStatus from '../constants';
 
-const Product = require('../models/product');
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getProducts = asyncHandler(async (req: Request, res: Response) => {
+const getProducts = asyncHandler(async (_req: Request, res: Response) => {
   const products = await Product.find();
 
   if (!products) {
-    res.status(404);
+    res.status(HttpStatus.NOT_FOUND);
     throw new Error('Маршрут не найден');
   }
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     items: products,
     total: products.length,
   });
@@ -24,11 +21,11 @@ const getProduct = asyncHandler(async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    res.status(404);
+    res.status(HttpStatus.NOT_FOUND);
     throw new Error('Маршрут не найден');
   }
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     Items: [product],
     total: 1,
   });
@@ -45,13 +42,6 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 
   const { _id, ...imageData } = image;
 
-  const titleProduct = await Product.findOne({ title });
-
-  if (titleProduct) {
-    res.status(409);
-    throw new Error('Ошибка при создании товара с уже существующим полем title');
-  }
-
   const product = await Product.create({
     title,
     image: imageData,
@@ -61,11 +51,11 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (!product) {
-    res.status(404);
+    res.status(HttpStatus.NOT_FOUND);
     throw new Error('Маршрут не найден');
   }
 
-  res.status(201).json({ product });
+  res.status(HttpStatus. CREATE_OK).json({ product });
 });
 
-module.exports = { getProducts, createProduct, getProduct };
+export { getProducts, createProduct, getProduct };

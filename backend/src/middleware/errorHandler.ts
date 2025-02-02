@@ -28,4 +28,4 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
   }
 };
 
-module.exports = errorHandler;
+export default errorHandler;

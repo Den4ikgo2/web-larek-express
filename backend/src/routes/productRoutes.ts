@@ -1,13 +1,10 @@
-// eslint-disable-next-line import/no-import-module-exports
 import express from 'express';
+import { getProducts, createProduct, getProduct } from '../controllers/productController';
+import { ValidateProductBody } from '../middleware/validatons';
 
 const router = express.Router();
-
-const { getProducts, createProduct, getProduct } = require('../controllers/productController');
-
-const { ValidateProductBody } = require('../middleware/validatons');
 
 router.route('/').get(getProducts).post(ValidateProductBody, createProduct);
 router.route('/:id').get(getProduct);
 
-module.exports = router;
+export default router;

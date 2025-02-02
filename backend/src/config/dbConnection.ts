@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const connectDb = async () => {
   try {
-    const connect = await mongoose.connect(process.env.DB_ADDRESS);
+    const connect = await mongoose.connect(process.env.DB_ADDRESS || 'mongodb://127.0.0.1:27017/weblarek');
     console.log(
       'Datebase connected: ',
       connect.connection.host,
@@ -14,4 +14,4 @@ const connectDb = async () => {
   }
 };
 
-module.exports = connectDb;
+export default connectDb;
